@@ -10,7 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-public class Token {
+public class Token extends BaseModel{
     private String value;
 
     @ManyToOne

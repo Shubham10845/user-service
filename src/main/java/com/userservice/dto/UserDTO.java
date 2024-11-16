@@ -11,5 +11,5 @@ import java.util.List;
 public class UserDTO {
     private String email;
     private String name;
-    private List<Role> roles;
+    private Role role;
 }
