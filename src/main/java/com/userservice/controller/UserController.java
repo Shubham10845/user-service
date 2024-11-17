@@ -1,5 +1,7 @@
 package com.userservice.controller;
 
+import com.userservice.dto.LoginRequestDTO;
+import com.userservice.dto.LoginResponseDTO;
 import com.userservice.dto.SignUpRequestDTO;
 import com.userservice.dto.UserDTO;
 import com.userservice.service.UserService;
@@ -21,4 +23,10 @@ public class UserController {
         UserDTO userDTO = userService.signup(signUpRequestDTO);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO){
+        LoginResponseDTO loginResponseDTO = userService.login(loginRequestDTO);
+        return new ResponseEntity<>(loginResponseDTO,HttpStatus.OK);
+    }
+
 }
