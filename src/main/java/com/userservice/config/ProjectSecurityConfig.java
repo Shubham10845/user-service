@@ -1,5 +1,8 @@
 package com.userservice.config;
 
+import com.userservice.filter.JwtAuthenticationFilter;
+import com.userservice.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,16 +15,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
+@AllArgsConstructor
 public class ProjectSecurityConfig {
+    UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.
                 csrf().disable()
                 .cors().disable()
-                .authorizeHttpRequests(req->req.anyRequest().permitAll());
+                .authorizeHttpRequests(req->req
+                        .requestMatchers("/user/signup","/user/login").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterAfter(new JwtAuthenticationFilter(userRepository), BasicAuthenticationFilter.class);
         return http.build();
     }
 
