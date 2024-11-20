@@ -50,12 +50,6 @@ public class UserServiceImpl implements UserService{
                 .filter(Authentication::isAuthenticated)
                 .map(auth->new LoginResponseDTO(auth.getName(),generateAndSaveJwtToken(auth,loginRequestDTO.email())))
                 .orElseThrow(()->new BadCredentialsException("Invalid Username Or Password"));
-//        if(authenticationResponse != null && authenticationResponse.isAuthenticated()){
-//            return new LoginResponseDTO(authenticationResponse.getName(),
-//                    generateAndSaveJwtToken(authenticationResponse,loginRequestDTO.email()));
-//        }else {
-//            throw new BadCredentialsException("Invalid Username or Password ");
-//        }
     }
 
     private String generateAndSaveJwtToken(Authentication authentication, String email) {
