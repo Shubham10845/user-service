@@ -1,10 +1,7 @@
 package com.userservice.service;
 
 import com.userservice.constants.ApplicationConstants;
-import com.userservice.dto.LoginRequestDTO;
-import com.userservice.dto.LoginResponseDTO;
-import com.userservice.dto.SignUpRequestDTO;
-import com.userservice.dto.UserDTO;
+import com.userservice.dto.*;
 import com.userservice.model.Role;
 import com.userservice.model.Token;
 import com.userservice.model.User;
@@ -58,6 +55,17 @@ public class UserServiceImpl implements UserService{
                 .map(Token::getUser)
                 .map(this::from)
                 .orElseThrow(()->new RuntimeException("Invalid User"));
+    }
+
+    @Override
+    public String logout(LogoutRequestDTO logoutRequestDTO) {
+         return tokenRepository.findByValueAndDeleted(logoutRequestDTO.token(),false)
+                 .map(token->{
+                     token.setDeleted(true);
+                     tokenRepository.save(token);
+                     return "Logout Successful";
+                 })
+                 .orElseThrow(()->new RuntimeException("Token not found or deleted"));
     }
 
     private String generateAndSaveJwtToken(Authentication authentication, String email) {

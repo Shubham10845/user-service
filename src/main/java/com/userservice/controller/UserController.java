@@ -1,9 +1,6 @@
 package com.userservice.controller;
 
-import com.userservice.dto.LoginRequestDTO;
-import com.userservice.dto.LoginResponseDTO;
-import com.userservice.dto.SignUpRequestDTO;
-import com.userservice.dto.UserDTO;
+import com.userservice.dto.*;
 import com.userservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +26,11 @@ public class UserController {
     public ResponseEntity<UserDTO> validateToken(@PathVariable("token") String token){
         UserDTO userDTO = userService.validateToken(token);
         return new ResponseEntity<>(userDTO,HttpStatus.OK);
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody LogoutRequestDTO logoutRequestDTO){
+        String logoutResponse = userService.logout(logoutRequestDTO);
+        return new ResponseEntity<>(logoutResponse,HttpStatus.OK);
     }
     @GetMapping("/profile")
     public String grtProfile(){
