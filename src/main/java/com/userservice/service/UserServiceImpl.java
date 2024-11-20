@@ -52,6 +52,14 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(()->new BadCredentialsException("Invalid Username Or Password"));
     }
 
+    @Override
+    public UserDTO validateToken(String token) {
+        return tokenRepository.findByValueAndDeletedAndExpiryAtGreaterThan(token,false,new Date())
+                .map(Token::getUser)
+                .map(this::from)
+                .orElseThrow(()->new RuntimeException("Invalid User"));
+    }
+
     private String generateAndSaveJwtToken(Authentication authentication, String email) {
         return userRepository.findByEmail(email)
                 .map(user -> {

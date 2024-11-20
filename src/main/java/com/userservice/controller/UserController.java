@@ -25,6 +25,11 @@ public class UserController {
         LoginResponseDTO loginResponseDTO = userService.login(loginRequestDTO);
         return new ResponseEntity<>(loginResponseDTO,HttpStatus.OK);
     }
+    @GetMapping("/validate/{token}")
+    public ResponseEntity<UserDTO> validateToken(@PathVariable("token") String token){
+        UserDTO userDTO = userService.validateToken(token);
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
+    }
     @GetMapping("/profile")
     public String grtProfile(){
         return "User Profile";

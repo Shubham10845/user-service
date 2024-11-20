@@ -8,4 +8,5 @@ import com.userservice.dto.UserDTO;
 public interface UserService {
     public UserDTO signup(SignUpRequestDTO signUpRequestDTO);
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO);
+    public UserDTO validateToken(String token);
 }
