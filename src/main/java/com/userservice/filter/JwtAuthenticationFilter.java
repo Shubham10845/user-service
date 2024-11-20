@@ -14,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
@@ -36,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
-                    .parseClaimsJws(jwt)  // Parse JWT and get Claims
+                    .parseClaimsJws(jwt)
                     .getBody();
             String username = String.valueOf(claims.get("email"));
             System.out.println(username);
