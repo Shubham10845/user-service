@@ -20,9 +20,11 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Set;
 
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final Set<String> EXCLUDED_PATHS = Set.of("/user/login", "/user/signup");
     UserRepository userRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -53,6 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/user/login");
+        return EXCLUDED_PATHS.contains(request.getServletPath());
     }
 }
